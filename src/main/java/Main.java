@@ -1,5 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        new LoginFrame();
+       try {
+           new LoginFrame();
+       }catch(Exception e){
+           e.printStackTrace();
+        }
     }
 }

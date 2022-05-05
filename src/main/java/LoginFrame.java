@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LoginFrame extends JFrame{
@@ -8,14 +10,31 @@ public class LoginFrame extends JFrame{
     JTextField username;
     JPasswordField password;
     JButton ok;
+    private ResultSet rs;
+    private String name;
+    private String pw;
 
-    public LoginFrame(){
+    public LoginFrame() throws SQLException {
         //creo una lista di User per controllare
-        User p1 = new User("Martina", "Ciao");
-        User p2 = new User("Andrea", "1234");
         ArrayList<User> users = new ArrayList<>();
-        users.add(p1);
-        users.add(p2);
+
+        /**carico dal db gli utenti**/
+
+            /*apro la connessione con il db,leggo gli utenti e li metto nell'array users*/
+            DBManager.openMySQLConnection();
+            rs = DBManager.statement.executeQuery("select * from users");
+            while(rs.next()){
+
+                name = String.format("%s",rs.getString("username"));
+                pw = String.format("%s", rs.getString("pw"));
+
+                users.add(new User(name,pw));
+
+            }
+            /*chiudo connessione con il db*/
+            DBManager.closeMySQLConnecion();
+
+
 
         username = new JTextField(15);
         password = new JPasswordField(15);

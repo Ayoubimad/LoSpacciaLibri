@@ -5,6 +5,7 @@ import java.util.TimeZone;
 /*Chiamando il metodo openMySQLConnection() crea la connessione con il db e direttamente lo statement
  * con il metodo closeMySQLConnection() chiude la connessione e lo statement
  *
+ * Esempio:
  * * * * * * * * * * * * * * * * * * * * * * * * **
  * DBManager.openMySQLConnection();               *
  * DBManager.statement.execute("stringa in sql"); *
