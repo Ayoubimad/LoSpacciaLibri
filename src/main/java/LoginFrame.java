@@ -6,16 +6,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class LoginFrame extends JFrame{
+
     //creo attributi
     JTextField username;
     JPasswordField password;
     JButton ok;
+
     private ResultSet rs;
     private String name;
     private String pw;
 
     public LoginFrame() throws SQLException {
-        //creo una lista di User per controllare
+        //creo una lista di User per controllare nella fase di login
         ArrayList<User> users = new ArrayList<>();
 
         /**carico dal db gli utenti**/
@@ -104,11 +106,7 @@ public class LoginFrame extends JFrame{
                 if((i.getUsername().equals(username.getText())) && (i.getPassword().equals(String.copyValueOf(password.getPassword())))){
                     JOptionPane.showMessageDialog(null,"Login effettuato", null, JOptionPane.INFORMATION_MESSAGE);
                     trovato = true;
-                    JPanel main_panel = new JPanel();
-                    main_panel.add(new JLabel("Benvenuto"));
-                    setContentPane(main_panel);
-                    setVisible(true);
-                    setResizable(false);
+                    this.dispose();
                     break;
                 }
             }
