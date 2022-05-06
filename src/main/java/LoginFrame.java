@@ -16,12 +16,7 @@ public class LoginFrame extends JFrame{
     private String name;
     private String pw;
 
-    public LoginFrame() throws SQLException {
-        //creo una lista di User per controllare nella fase di login
-        ArrayList<User> users = new ArrayList<>();
-
-        /**carico dal db gli utenti**/
-        DBManager.readUserFromDB(users);
+    public LoginFrame(ArrayList<User> users) throws SQLException {
 
         username = new JTextField(15);
         password = new JPasswordField(15);
@@ -97,7 +92,7 @@ public class LoginFrame extends JFrame{
             }
             if(!trovato) {
                 JOptionPane.showMessageDialog(null, "Utente non registrato!", null, JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
+                this.dispose();
                 setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             }
         });

@@ -1,15 +1,22 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.SQLException;
+import java.util.Objects;
 
 public class RegistrationFrame extends JFrame {
-    JTextField reg_username, reg_password;
+    JTextField reg_username;
+    JPasswordField reg_password;
     JButton registrami;
+    KeyEvent invio;
 
     public RegistrationFrame(){
 
         reg_username = new JTextField(15);
-        reg_password = new JTextField(15);
+        reg_password = new JPasswordField(15);
+        reg_password.setEchoChar('*');
         registrami = new JButton("ok");
 
         JPanel reg_panel = new JPanel();
@@ -67,7 +74,17 @@ public class RegistrationFrame extends JFrame {
         reg_panel.add(registrami, gbc);
 
         registrami.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Grazie per aver scelto LoSpacciaLibri", null, JOptionPane.INFORMATION_MESSAGE);
+            if(!Objects.equals(reg_username.getText(), "") && !Objects.equals(String.copyValueOf(reg_password.getPassword()), "")){
+                try {
+                    DBManager.insertUserToDB(new User(reg_username.getText(),
+                            String.copyValueOf(reg_password.getPassword())));
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                JOptionPane.showMessageDialog(null, "Grazie per aver scelto LoSpacciaLibri", null, JOptionPane.INFORMATION_MESSAGE);
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Inserire username e password valide", null, JOptionPane.INFORMATION_MESSAGE);
         });
 
         setContentPane(reg_panel);
@@ -79,4 +96,5 @@ public class RegistrationFrame extends JFrame {
         setVisible(true);
 
     }
+
 }

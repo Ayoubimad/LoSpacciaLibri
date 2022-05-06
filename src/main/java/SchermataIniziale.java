@@ -2,12 +2,18 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SchermataIniziale extends JFrame {
 
     JButton login, registrazione;
 
-    public SchermataIniziale(){
+    public SchermataIniziale() throws SQLException {
+        //creo una lista di User per controllare nella fase di login
+        ArrayList<User> users = new ArrayList<>();
+
+        /**carico dal db gli utenti**/
+        DBManager.readUserFromDB(users);
 
         login = new JButton("Login");
         registrazione = new JButton("Registrati");
@@ -56,7 +62,7 @@ public class SchermataIniziale extends JFrame {
 
         login.addActionListener(e -> {
             try {
-                new LoginFrame();
+                new LoginFrame(users);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }

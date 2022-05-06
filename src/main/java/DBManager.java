@@ -18,8 +18,8 @@ import java.util.TimeZone;
 public class DBManager {
 
     public static final String JDBC_Driver_MySQL = "com.mysql.cj.jdbc.Driver";
-    public static final String JDBC_URL_MySQL = "jdbc:mysql://localhost:3306/lospaccialibri?user=Ayoub&password" +
-            "=Password&serverTimezone=" + TimeZone.getDefault().getID();
+    public static final String JDBC_URL_MySQL = "jdbc:mysql://localhost:3306/lospaccialibri?user=martina&password" +
+            "=M4rt1D4ll4!&serverTimezone=" + TimeZone.getDefault().getID();
 
     public static String JDBC_Driver = null;
     public static String JDBC_URL = null;
@@ -76,8 +76,8 @@ public class DBManager {
         ResultSet rs = DBManager.statement.executeQuery("select * from users");
         while(rs.next()){
             String username = String.format("%s",rs.getString("username"));
-            String passoword = String.format("%s", rs.getString("pw"));
-            users.add(new User(username,passoword));
+            String password = String.format("%s", rs.getString("pw"));
+            users.add(new User(username,password));
         }
         closeMySQLConnecion();
     }
