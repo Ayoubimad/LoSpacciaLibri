@@ -9,11 +9,6 @@ public class SchermataIniziale extends JFrame {
     JButton login, registrazione;
 
     public SchermataIniziale() throws SQLException {
-        //creo una lista di User per controllare nella fase di login
-        ArrayList<User> users = new ArrayList<>();
-
-        /**carico dal db gli utenti**/
-        DBManager.readUserFromDB(users);
 
         login = new JButton("Login");
         registrazione = new JButton("Registrati");
@@ -62,14 +57,14 @@ public class SchermataIniziale extends JFrame {
 
         login.addActionListener(e -> {
             try {
-                new LoginFrame(users);
+                new LoginFrame(this);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         });
 
         registrazione.addActionListener(e -> {
-            new RegistrationFrame();
+            new RegistrationFrame(this);
         });
 
         setContentPane(start_panel);

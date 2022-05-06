@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class LoginFrame extends JFrame{
@@ -11,13 +12,10 @@ public class LoginFrame extends JFrame{
     JTextField username;
     JPasswordField password;
     JButton ok;
+    ArrayList<User> users;
+    public LoginFrame(JFrame frame) throws SQLException {
 
-    private ResultSet rs;
-    private String name;
-    private String pw;
-
-    public LoginFrame(ArrayList<User> users) throws SQLException {
-
+        users = new ArrayList<>();
         username = new JTextField(15);
         password = new JPasswordField(15);
         password.setEchoChar('*'); //per nascondere la password
@@ -80,12 +78,28 @@ public class LoginFrame extends JFrame{
         login_panel.add(ok, gbc);
 
         ok.addActionListener(e -> {
+            /*leggo dal DB gli utenti e gli aggiunge alla lista*/
+            try {
+                DBManager.setConnection();
+                Statement statement = DBManager.getConnection().createStatement();
+                ResultSet rs = statement.executeQuery("select * from users");
+                while(rs.next()){
+                    String username = String.format("%s",rs.getString("username"));
+                    String password = String.format("%s", rs.getString("pw"));
+                    users.add(new User(username,password));
+                }
+                statement.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
             //se password e username corrette
             boolean trovato = false;
             for(User i : users){
                 if((i.getUsername().equals(username.getText())) && (i.getPassword().equals(String.copyValueOf(password.getPassword())))){
                     JOptionPane.showMessageDialog(null,"Login effettuato", null, JOptionPane.INFORMATION_MESSAGE);
                     trovato = true;
+                    frame.dispose();
                     this.dispose();
                     break;
                 }

@@ -16,29 +16,14 @@ import java.util.Base64;
 
 public class Main {
     public static void main(String[] args) {
-
         /*cambiamo look,serve a settare modalità DARK*/
         try {
             UIManager.setLookAndFeel(new FlatDarkLaf());
         } catch (Exception ex) {
             System.err.println("Bomber sarai bianco");
         }
-
        try {
-           /*inserisco
-           * username=Ayoub
-           * pw= password
-           * per simulare un accesso
-           */
-           /*DBManager.openMySQLConnection();
-           DBManager.statement.execute("insert into users values ('Ayoub','password')");
-           DBManager.closeMySQLConnecion();
-           */
-           /*mainFrame è per prove ayoub*/
-           //new MainFrame();
-
            new SchermataIniziale();
-
            /*provo a inserire e leggere  un'immagine nel DB da finire e capire AHAHAHAHAHH (cazzo ridi)
            DBManager.openMySQLConnection();
            PreparedStatement statement2 = DBManager.connection.prepareStatement("insert into immagini values(?,?,?)");
@@ -53,7 +38,6 @@ public class Main {
            BufferedImage imagebis =ImageIO.read(output);
            DBManager.closeMySQLConnecion();
             */
-
        }catch(Exception e){
            e.printStackTrace();
         }

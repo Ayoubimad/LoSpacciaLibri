@@ -4,15 +4,15 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
 
 public class RegistrationFrame extends JFrame {
     JTextField reg_username;
     JPasswordField reg_password;
     JButton registrami;
-    KeyEvent invio;
 
-    public RegistrationFrame(){
+    public RegistrationFrame(JFrame frame){
 
         reg_username = new JTextField(15);
         reg_password = new JPasswordField(15);
@@ -76,15 +76,23 @@ public class RegistrationFrame extends JFrame {
         registrami.addActionListener(e -> {
             if(!Objects.equals(reg_username.getText(), "") && !Objects.equals(String.copyValueOf(reg_password.getPassword()), "")){
                 try {
-                    DBManager.insertUserToDB(new User(reg_username.getText(),
-                            String.copyValueOf(reg_password.getPassword())));
+                    DBManager.setConnection();
+                    Statement statement = DBManager.getConnection().createStatement();
+                    String sql = String.format("insert into users values ('%s','%s')",reg_username.getText(),
+                                                String.copyValueOf(reg_password.getPassword()));
+                    statement.execute(sql);
+                    statement.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+                this.dispose();
+                frame.dispose();
                 JOptionPane.showMessageDialog(null, "Grazie per aver scelto LoSpacciaLibri", null, JOptionPane.INFORMATION_MESSAGE);
             }
-            else
+            else {
+                this.dispose();
                 JOptionPane.showMessageDialog(null, "Inserire username e password valide", null, JOptionPane.INFORMATION_MESSAGE);
+            }
         });
 
         setContentPane(reg_panel);
