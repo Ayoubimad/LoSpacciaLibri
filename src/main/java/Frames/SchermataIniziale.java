@@ -1,3 +1,8 @@
+package Frames;
+
+import Frames.LoginFrame;
+import Frames.RegistrationFrame;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
