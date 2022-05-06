@@ -37,7 +37,7 @@ public class Main {
 
            new MainFrame();
 
-           /*provo a inserire e leggere  un'immagine nel DB da finire e capire AHAHAHAHAHH
+           /*provo a inserire e leggere  un'immagine nel DB da finire e capire AHAHAHAHAHH (cazzo ridi)
            DBManager.openMySQLConnection();
            PreparedStatement statement2 = DBManager.connection.prepareStatement("insert into immagini values(?,?,?)");
            InputStream input = new FileInputStream("C:\\Users\\imada\\OneDrive\\Desktop\\dance.jpg");
