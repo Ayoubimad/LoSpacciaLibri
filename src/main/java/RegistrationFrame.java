@@ -7,6 +7,7 @@ public class RegistrationFrame extends JFrame {
     JButton registrami;
 
     public RegistrationFrame(){
+
         reg_username = new JTextField(15);
         reg_password = new JTextField(15);
         registrami = new JButton("ok");

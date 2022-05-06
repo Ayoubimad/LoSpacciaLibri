@@ -34,8 +34,10 @@ public class Main {
            DBManager.statement.execute("insert into users values ('Ayoub','password')");
            DBManager.closeMySQLConnecion();
            */
+           /*mainFrame è per prove ayoub*/
+           //new MainFrame();
 
-           new MainFrame();
+           new SchermataIniziale();
 
            /*provo a inserire e leggere  un'immagine nel DB da finire e capire AHAHAHAHAHH (cazzo ridi)
            DBManager.openMySQLConnection();
