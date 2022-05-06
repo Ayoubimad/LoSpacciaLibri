@@ -2,13 +2,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 
 public class SchermataIniziale extends JFrame {
 
     JButton login, registrazione;
 
-    public SchermataIniziale() throws SQLException {
+    public SchermataIniziale()  {
 
         login = new JButton("Login");
         registrazione = new JButton("Registrati");
@@ -63,9 +63,7 @@ public class SchermataIniziale extends JFrame {
             }
         });
 
-        registrazione.addActionListener(e -> {
-            new RegistrationFrame(this);
-        });
+        registrazione.addActionListener(e -> new RegistrationFrame(this));
 
         setContentPane(start_panel);
         setTitle("LoSpacciaLibri");
