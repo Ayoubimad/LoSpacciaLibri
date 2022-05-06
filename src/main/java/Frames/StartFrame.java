@@ -1,19 +1,16 @@
 package Frames;
 
-import Frames.SignInFrame;
-import Frames.SignUpFrame;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.sql.SQLException;
 
 
-public class startFrame extends JFrame {
+public class StartFrame extends JFrame {
 
     JButton login, registrazione;
 
-    public startFrame()  {
+    public StartFrame()  {
 
         login = new JButton("Login");
         registrazione = new JButton("Registrati");

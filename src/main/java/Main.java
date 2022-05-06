@@ -1,4 +1,4 @@
-import Frames.startFrame;
+import Frames.StartFrame;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ public class Main {
             System.err.println("Bomber sarai bianco");
         }
        try {
-           new startFrame();
+           new StartFrame();
            /*provo a inserire e leggere  un'immagine nel DB da finire e capire AHAHAHAHAHH (cazzo ridi)
            Utils.DBManager.openMySQLConnection();
            PreparedStatement statement2 = Utils.DBManager.connection.prepareStatement("insert into immagini values(?,?,?)");
