@@ -1,8 +1,10 @@
+package Frames;
+
+import Utils.DBManager;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,22 +14,30 @@ public class FrameProvaImage extends JFrame {
     Blob image ;
     FrameProvaImage() throws IOException, SQLException {
        /*inserisco l'immagine inserendo i byte*/
+        /*** nel db ho una tabella così
+         create table book(
+         isbn varchar(25) PRIMARY KEY,
+         nome varchar(25),
+         picData longblob
+         );
+         ***/
         try {
             DBManager.setConnection();
-            PreparedStatement st = DBManager.connection.prepareStatement("insert into immagini values(?,?)");
+            PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values(?,?,?)");
             InputStream input = new FileInputStream("Immagini/dance.jpg");
-            st.setString(1, "dance.png");
-            st.setBlob(2, input);
+            st.setString(1, "1234567");
+            st.setString(2, "dance.png");
+            st.setBlob(3, input);
             st.execute();
             st.close();
         }catch (SQLException e){
-            e.printStackTrace();
+            System.out.println("il libro c'è già...bisognerebbe incrementare la quantià di libri");
         }
       /*leggo i byte dell'immagine*/
         try {
             DBManager.setConnection();
             Statement statement = DBManager.getConnection().createStatement();
-            ResultSet rs = statement.executeQuery("select * from immagini");
+            ResultSet rs = statement.executeQuery("select * from books");
             while(rs.next()){
                 image = rs.getBlob("picData");
             }

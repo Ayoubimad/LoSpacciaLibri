@@ -1,3 +1,8 @@
+package Frames;
+
+import Frames.FrameProvaImage;
+import Utils.DBManager;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
