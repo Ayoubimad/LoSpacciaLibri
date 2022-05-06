@@ -1,18 +1,17 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 
-public class RegistrationFrame extends JFrame {
+public class SignUpFrame extends JFrame {
     JTextField reg_username;
     JPasswordField reg_password;
     JButton registrami;
 
-    public RegistrationFrame(JFrame frame){
+    public SignUpFrame(JFrame frame){
 
         reg_username = new JTextField(15);
         reg_password = new JPasswordField(15);
@@ -87,7 +86,16 @@ public class RegistrationFrame extends JFrame {
                 }
                 this.dispose();
                 frame.dispose();
+                /***Qui si dovrebbe aprire l'app con l'utente appena registrato***/
                 JOptionPane.showMessageDialog(null, "Grazie per aver scelto LoSpacciaLibri", null, JOptionPane.INFORMATION_MESSAGE);
+                /*ma apre solo una foto caricata nel db poi letta!!!! DAYE CAAAZZZOOOO*/
+                try {
+                    new FrameProvaImage();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
             else {
                 this.dispose();

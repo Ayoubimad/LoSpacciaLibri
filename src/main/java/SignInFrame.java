@@ -1,19 +1,20 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class LoginFrame extends JFrame{
+public class SignInFrame extends JFrame{
 
     //creo attributi
     JTextField username;
     JPasswordField password;
     JButton ok;
     ArrayList<User> users;
-    public LoginFrame(JFrame frame) throws SQLException {
+    public SignInFrame(JFrame frame) throws SQLException {
 
         users = new ArrayList<>();
         username = new JTextField(15);
@@ -99,7 +100,16 @@ public class LoginFrame extends JFrame{
                 if((i.getUsername().equals(username.getText())) && (i.getPassword().equals(String.copyValueOf(password.getPassword())))){
                     JOptionPane.showMessageDialog(null,"Login effettuato", null, JOptionPane.INFORMATION_MESSAGE);
                     trovato = true;
-                    frame.dispose();
+                    frame.dispose();/*questo è il frame della schermatainiziale*/
+                    /***qui si dovrebbe aprire l'app con l'utente appena loggato*/
+                    /*ma apre solo una foto caricata nel db e poi letta!!!! DAYE CAAAZZZOOOO*/
+                    try {
+                        new FrameProvaImage();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                     this.dispose();
                     break;
                 }

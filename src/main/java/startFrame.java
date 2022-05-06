@@ -4,11 +4,11 @@ import java.awt.*;
 import java.sql.SQLException;
 
 
-public class SchermataIniziale extends JFrame {
+public class startFrame extends JFrame {
 
     JButton login, registrazione;
 
-    public SchermataIniziale()  {
+    public startFrame()  {
 
         login = new JButton("Login");
         registrazione = new JButton("Registrati");
@@ -57,13 +57,13 @@ public class SchermataIniziale extends JFrame {
 
         login.addActionListener(e -> {
             try {
-                new LoginFrame(this);
+                new SignInFrame(this);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         });
 
-        registrazione.addActionListener(e -> new RegistrationFrame(this));
+        registrazione.addActionListener(e -> new SignUpFrame(this));
 
         setContentPane(start_panel);
         setTitle("LoSpacciaLibri");
