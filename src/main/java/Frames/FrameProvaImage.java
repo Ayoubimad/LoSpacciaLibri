@@ -15,7 +15,7 @@ public class FrameProvaImage extends JFrame {
     FrameProvaImage() throws IOException, SQLException {
        /*inserisco l'immagine inserendo i byte*/
         /*** nel db ho una tabella così
-         create table book(
+         create table books(
          isbn varchar(25) PRIMARY KEY,
          nome varchar(25),
          picData longblob
