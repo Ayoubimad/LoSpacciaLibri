@@ -1,3 +1,4 @@
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.mysql.cj.protocol.FullReadInputStream;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,14 @@ import java.util.Base64;
 
 public class Main {
     public static void main(String[] args) {
+
+        /*cambiamo look,serve a settare modalità DARK*/
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception ex) {
+            System.err.println("Bomber sarai bianco");
+        }
+
        try {
            /*inserisco
            * username=Ayoub
@@ -25,8 +34,10 @@ public class Main {
            DBManager.statement.execute("insert into users values ('Ayoub','password')");
            DBManager.closeMySQLConnecion();
            */
+           /*mainFrame è per prove ayoub*/
+           //new MainFrame();
 
-           new MainFrame();
+           new SchermataIniziale();
 
            /*provo a inserire e leggere  un'immagine nel DB da finire e capire AHAHAHAHAHH (cazzo ridi)
            DBManager.openMySQLConnection();

@@ -4,9 +4,11 @@ import java.awt.*;
 import java.sql.SQLException;
 
 public class SchermataIniziale extends JFrame {
+
     JButton login, registrazione;
 
     public SchermataIniziale(){
+
         login = new JButton("Login");
         registrazione = new JButton("Registrati");
         JLabel reg = new JLabel("Sei gia registrato?");
