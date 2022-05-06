@@ -14,9 +14,11 @@ public class SignInFrame extends JFrame{
     JPasswordField password;
     JButton ok;
     ArrayList<User> users;
+
     public SignInFrame(JFrame frame) throws SQLException {
 
         users = new ArrayList<>();
+
         username = new JTextField(15);
         password = new JPasswordField(15);
         password.setEchoChar('*'); //per nascondere la password
@@ -129,9 +131,4 @@ public class SignInFrame extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
-
-
-
-
-
 }
