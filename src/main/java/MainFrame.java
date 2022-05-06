@@ -32,13 +32,11 @@ public class MainFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         /*evento login buttun*/
         if(e.getSource()==loginButton){
-
             try {
                 new LoginFrame();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-
         }
     }
 }

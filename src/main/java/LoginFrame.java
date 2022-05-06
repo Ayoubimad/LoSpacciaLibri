@@ -21,22 +21,7 @@ public class LoginFrame extends JFrame{
         ArrayList<User> users = new ArrayList<>();
 
         /**carico dal db gli utenti**/
-
-            /*apro la connessione con il db,leggo gli utenti e li metto nell'array users*/
-            DBManager.openMySQLConnection();
-            rs = DBManager.statement.executeQuery("select * from users");
-            while(rs.next()){
-
-                name = String.format("%s",rs.getString("username"));
-                pw = String.format("%s", rs.getString("pw"));
-
-                users.add(new User(name,pw));
-
-            }
-            /*chiudo connessione con il db*/
-            DBManager.closeMySQLConnecion();
-
-
+        DBManager.readUserFromDB(users);
 
         username = new JTextField(15);
         password = new JPasswordField(15);
@@ -111,7 +96,7 @@ public class LoginFrame extends JFrame{
                 }
             }
             if(!trovato) {
-                JOptionPane.showMessageDialog(null, "Errore!", null, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Utente non registrato!", null, JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
                 setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             }
@@ -125,4 +110,9 @@ public class LoginFrame extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
     }
+
+
+
+
+
 }

@@ -1,5 +1,6 @@
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.TimeZone;
 
 /*Chiamando il metodo openMySQLConnection() crea la connessione con il db e direttamente lo statement
@@ -67,6 +68,28 @@ public class DBManager {
         if(statement == null) {
             statement = DBManager.getConnection().createStatement();
         }
+    }
+
+    public static void readUserFromDB(ArrayList<User> users) throws SQLException {
+        /*la funzione legge dal DB gli utenti e gli aggiunge alla lista passata come parametro*/
+        openMySQLConnection();
+        ResultSet rs = DBManager.statement.executeQuery("select * from users");
+        while(rs.next()){
+            String username = String.format("%s",rs.getString("username"));
+            String passoword = String.format("%s", rs.getString("pw"));
+            users.add(new User(username,passoword));
+        }
+        closeMySQLConnecion();
+    }
+
+    public static void insertUserToDB(User user) throws SQLException {
+        /*la funzione prende un User e lo aggiunge al DB*/
+        openMySQLConnection();
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String sql = String.format("insert into users values ('%s','%s')",username,password);
+        DBManager.statement.execute(sql);
+        closeMySQLConnecion();
     }
 
 }

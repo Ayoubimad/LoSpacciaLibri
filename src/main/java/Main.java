@@ -1,3 +1,4 @@
+import com.formdev.flatlaf.FlatDarkLaf;
 import com.mysql.cj.protocol.FullReadInputStream;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,14 @@ import java.util.Base64;
 
 public class Main {
     public static void main(String[] args) {
+
+        /*cambiamo look*/
+        try {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        } catch (Exception ex) {
+            System.err.println("Failed to initialize LaF");
+        }
+
        try {
            /*inserisco
            * username=Ayoub
