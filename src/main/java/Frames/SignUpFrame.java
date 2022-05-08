@@ -16,11 +16,13 @@ import java.util.ArrayList;
 
 
 public class SignUpFrame extends JFrame implements KeyListener {
+
     JTextField reg_username;
     JPasswordField reg_password;
     JButton registrami;
     JFrame frame;
     ArrayList<User> users;
+
     public SignUpFrame(JFrame frame){
 
         users = new ArrayList<>();
@@ -28,8 +30,12 @@ public class SignUpFrame extends JFrame implements KeyListener {
         this.frame = frame;
         reg_username = new JTextField(15);
         reg_password = new JPasswordField(15);
+        reg_password.addKeyListener(this);
+        reg_username.addKeyListener(this);
         reg_password.setEchoChar('*');
         registrami = new JButton("ok");
+
+
 
         JPanel reg_panel = new JPanel();
         reg_panel.setLayout(new GridBagLayout());

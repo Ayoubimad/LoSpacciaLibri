@@ -1,7 +1,6 @@
 package Frames;
 
 import Utils.DBManager;
-import Utils.User;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,11 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 
-public class FrameProvaImage extends JFrame {
+public class Prova extends JFrame {
 
     Blob image ;
 
-    FrameProvaImage(User currentUser) throws IOException, SQLException {
+    Prova() throws IOException, SQLException {
        /*inserisco l'immagine inserendo i byte*/
         /*nel db ho una tabella così
          create table books(
@@ -67,5 +66,7 @@ public class FrameProvaImage extends JFrame {
         setVisible(true);
     }
 
-
+    public static void main(String[] args) throws SQLException, IOException {
+        new Prova();
+    }
 }

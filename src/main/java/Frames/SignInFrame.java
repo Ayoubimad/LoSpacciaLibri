@@ -22,6 +22,8 @@ public class SignInFrame extends JFrame implements KeyListener {
     ArrayList<User> users;
     JFrame frame;
 
+    private boolean admin = true;
+
     public SignInFrame(JFrame frame) throws SQLException {
 
         this.frame = frame;
@@ -103,13 +105,17 @@ public class SignInFrame extends JFrame implements KeyListener {
         setVisible(true);
     }
 
-    /********Metodi*******/
     private void signIn()  {
         readUsers();
         if (check()) {
             JOptionPane.showMessageDialog(null, "Login effettuato", null, JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
             frame.dispose();
+            if(!admin) {
+                loadAppWithUser();
+            }else{
+                loadAppWithAdmin();
+            }
             //new FrameProvaImage();
         } else {
             JOptionPane.showMessageDialog(null, "Utente non registrato!", null, JOptionPane.INFORMATION_MESSAGE);
@@ -138,6 +144,7 @@ public class SignInFrame extends JFrame implements KeyListener {
                 return true;
             }
         }
+        admin = false;
         return false;
     }
 
@@ -159,5 +166,20 @@ public class SignInFrame extends JFrame implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
     }
+
+
+    public void loadAppWithUser(){
+
+
+
+    }
+
+    public void loadAppWithAdmin(){
+
+
+
+
+    }
+
 
 }
