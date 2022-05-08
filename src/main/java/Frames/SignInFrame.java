@@ -6,26 +6,33 @@ import Utils.User;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class SignInFrame extends JFrame{
+public class SignInFrame extends JFrame implements KeyListener {
 
     //creo attributi
     JTextField username;
     JPasswordField password;
     JButton ok;
     ArrayList<User> users;
+    JFrame frame;
 
     public SignInFrame(JFrame frame) throws SQLException {
 
+        this.frame = frame;
         users = new ArrayList<>();
 
         username = new JTextField(15);
         password = new JPasswordField(15);
+
+        password.addKeyListener(this);
+        username.addKeyListener(this);
+
         password.setEchoChar('*'); //per nascondere la password
         ok = new JButton("Ok");
         JPanel login_panel = new JPanel();
@@ -85,55 +92,72 @@ public class SignInFrame extends JFrame{
 
         login_panel.add(ok, gbc);
 
-        ok.addActionListener(e -> {
-            /*leggo dal DB gli utenti e gli aggiunge alla lista*/
-            try {
-                DBManager.setConnection();
-                Statement statement = DBManager.getConnection().createStatement();
-                ResultSet rs = statement.executeQuery("select * from users");
-                while(rs.next()){
-                    String username = String.format("%s",rs.getString("username"));
-                    String password = String.format("%s", rs.getString("pw"));
-                    users.add(new User(username,password));
-                }
-                statement.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-
-            //se password e username corrette
-            boolean trovato = false;
-            for(User i : users){
-                if((i.getUsername().equals(username.getText())) && (i.getPassword().equals(String.copyValueOf(password.getPassword())))){
-                    JOptionPane.showMessageDialog(null,"Login effettuato", null, JOptionPane.INFORMATION_MESSAGE);
-                    trovato = true;
-                    frame.dispose();/*questo è il frame della schermatainiziale*/
-                    /***qui si dovrebbe aprire l'app con l'utente appena loggato*/
-                    /*ma apre solo una foto caricata nel db e poi letta!!!! DAYE CAAAZZZOOOO*/
-                    try {
-                        new FrameProvaImage();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
-                    this.dispose();
-                    break;
-                }
-            }
-            if(!trovato) {
-                JOptionPane.showMessageDialog(null, "Utente non registrato!", null, JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            }
-        });
+        ok.addActionListener(e -> signIn());
 
         setContentPane(login_panel);
         setTitle("Login");
         setSize(300, 200);
         setLocationRelativeTo(null); //fa apparire finestra al centro dello schermo
         setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
     }
+
+    /********Metodi*******/
+    private void signIn()  {
+        readUsers();
+        if (check()) {
+            JOptionPane.showMessageDialog(null, "Login effettuato", null, JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+            frame.dispose();
+            //new FrameProvaImage();
+        } else {
+            JOptionPane.showMessageDialog(null, "Utente non registrato!", null, JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void readUsers(){
+        try {
+            DBManager.setConnection();
+            Statement statement = DBManager.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery("select * from users");
+            while(rs.next()){
+                String username = String.format("%s",rs.getString("username"));
+                String password = String.format("%s", rs.getString("pw"));
+                users.add(new User(username,password));
+            }
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private boolean check(){
+        for(User i : users){
+            if((i.getUsername().equals(username.getText())) && (i.getPassword().equals(String.copyValueOf(password.getPassword())))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if(!username.getText().equals("")){
+                if(!String.copyValueOf(password.getPassword()).equals(""))
+                    signIn();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
 }

@@ -1,23 +1,31 @@
 package Frames;
 
-import Frames.FrameProvaImage;
+
 import Utils.DBManager;
+import Utils.User;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Objects;
+import java.util.ArrayList;
 
-public class SignUpFrame extends JFrame {
+
+public class SignUpFrame extends JFrame implements KeyListener {
     JTextField reg_username;
     JPasswordField reg_password;
     JButton registrami;
-
+    JFrame frame;
+    ArrayList<User> users;
     public SignUpFrame(JFrame frame){
 
+        users = new ArrayList<>();
+
+        this.frame = frame;
         reg_username = new JTextField(15);
         reg_password = new JPasswordField(15);
         reg_password.setEchoChar('*');
@@ -77,44 +85,93 @@ public class SignUpFrame extends JFrame {
 
         reg_panel.add(registrami, gbc);
 
-        registrami.addActionListener(e -> {
-            if(!Objects.equals(reg_username.getText(), "") && !Objects.equals(String.copyValueOf(reg_password.getPassword()), "")){
-                try {
-                    DBManager.setConnection();
-                    Statement statement = DBManager.getConnection().createStatement();
-                    String sql = String.format("insert into users values ('%s','%s')",reg_username.getText(),
-                                                String.copyValueOf(reg_password.getPassword()));
-                    statement.execute(sql);
-                    statement.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-                this.dispose();
-                frame.dispose();
-                /***Qui si dovrebbe aprire l'app con l'utente appena registrato***/
-                JOptionPane.showMessageDialog(null, "Grazie per aver scelto LoSpacciaLibri", null, JOptionPane.INFORMATION_MESSAGE);
-                /*ma apre solo una foto caricata nel db poi letta!!!! DAYE CAAAZZZOOOO*/
-                try {
-                    new FrameProvaImage();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            else {
-                this.dispose();
-                JOptionPane.showMessageDialog(null, "Inserire username e password valide", null, JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+        registrami.addActionListener(e -> signUp());
 
         setContentPane(reg_panel);
         setTitle("Registrazione");
         setSize(300, 200);
         setLocationRelativeTo(null); //fa apparire finestra al centro dello schermo
         setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setVisible(true);
+
+    }
+
+
+    private void signUp(){
+
+          readUsers();
+          if(check()){
+              JOptionPane.showMessageDialog(null, "Utente già registrato!", null, JOptionPane.INFORMATION_MESSAGE);
+          }
+          else{
+              insertUser();
+              //frame.dispose();
+              this.dispose();
+          }
+
+    }
+
+    private boolean check(){
+        User c = new User(reg_username.getText(),String.copyValueOf(reg_password.getPassword()));
+        for(User i : users){
+            if((i.getUsername().equals(c.getUsername()))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    private void readUsers(){
+        try {
+            DBManager.setConnection();
+            Statement statement = DBManager.getConnection().createStatement();
+            ResultSet rs = statement.executeQuery("select * from users");
+            while(rs.next()){
+                String username = String.format("%s",rs.getString("username"));
+                String password = String.format("%s", rs.getString("pw"));
+                users.add(new User(username,password));
+            }
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    private void insertUser(){
+        try {
+            DBManager.setConnection();
+            Statement statement = DBManager.getConnection().createStatement();
+            String sql = String.format("insert into users values ('%s','%s')",reg_username.getText(),
+                    String.copyValueOf(reg_password.getPassword()));
+            statement.execute(sql);
+            statement.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            if(!reg_username.getText().equals("")){
+                if(!String.copyValueOf(reg_password.getPassword()).equals(""))
+                    signUp();
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 

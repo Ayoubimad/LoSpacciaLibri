@@ -1,6 +1,7 @@
 package Frames;
 
 import Utils.DBManager;
+import Utils.User;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,16 +12,18 @@ import java.io.InputStream;
 import java.sql.*;
 
 public class FrameProvaImage extends JFrame {
+
     Blob image ;
-    FrameProvaImage() throws IOException, SQLException {
+
+    FrameProvaImage(User currentUser) throws IOException, SQLException {
        /*inserisco l'immagine inserendo i byte*/
-        /*** nel db ho una tabella così
+        /*nel db ho una tabella così
          create table books(
          isbn varchar(25) PRIMARY KEY,
          nome varchar(25),
          picData longblob
          );
-         ***/
+         */
         try {
             DBManager.setConnection();
             PreparedStatement st = DBManager.getConnection().prepareStatement("insert into books values(?,?,?)");
